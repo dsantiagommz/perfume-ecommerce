@@ -3,29 +3,45 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { Product } from '@/lib/types'
-import { useCart } from '@/lib/useCart'
 import { useLanguage } from '@/lib/i18n'
 import { ProductImage } from '@/components/ProductImage'
 
-const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender']; gradient: string }[] = [
-  { key: 'men', gender: 'Men', gradient: 'from-slate-700 to-slate-900' },
-  { key: 'women', gender: 'Women', gradient: 'from-rose-400 to-rose-600' },
-  { key: 'unisex', gender: 'Unisex', gradient: 'from-violet-500 to-violet-700' },
+const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender']; letter: string }[] = [
+  { key: 'men', gender: 'Men', letter: 'M' },
+  { key: 'women', gender: 'Women', letter: 'W' },
+  { key: 'unisex', gender: 'Unisex', letter: 'U' },
 ]
 
-const testimonials = [
-  { name: 'Isabelle R.', quote: 'The scent lasted all day and the packaging felt genuinely luxurious. My new go-to shop.' },
-  { name: 'Marcus T.', quote: "Found a fragrance I'd been searching for years. Fast shipping, beautifully presented." },
-  { name: 'Sofia G.', quote: 'Customer service helped me pick the perfect gift. It arrived exactly on time.' },
+const scentJourney = [
+  {
+    phase: 'TOP NOTES',
+    duration: '2–3 min',
+    color: 'text-[#5c2e3a]',
+    border: 'border-[#5c2e3a]',
+    notes: ['Bergamot', 'Lemon', 'Grapefruit'],
+  },
+  {
+    phase: 'HEART NOTES',
+    duration: '15–60 min',
+    color: 'text-[#b8860b]',
+    border: 'border-[#b8860b]',
+    notes: ['Rose', 'Jasmine', 'Iris'],
+  },
+  {
+    phase: 'BASE NOTES',
+    duration: '2–8 hrs',
+    color: 'text-[#6b6b68]',
+    border: 'border-[#6b6b68]',
+    notes: ['Oud', 'Sandalwood', 'Musk'],
+  },
 ]
 
 export default function Home() {
-  const { addToCart } = useCart()
   const { t } = useLanguage()
   const [featured, setFeatured] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('/api/products?pageSize=8')
+    fetch('/api/products?pageSize=6')
       .then((res) => res.json())
       .then((json: { products: Product[] }) => setFeatured(json.products))
       .catch(() => setFeatured([]))
@@ -33,96 +49,159 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero */}
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-[#0f0d0b] text-[#f2ede3]">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1613] via-[#0f0d0b] to-black opacity-90" />
-        <div className="relative z-10 mx-auto max-w-2xl px-4 text-center">
-          <p className="mb-4 text-xs font-medium tracking-[0.3em] text-[#c9a961]">MAISON</p>
-          <h1 className="font-serif text-4xl leading-tight sm:text-5xl md:text-6xl">
-            {t('heroTitle')}
-          </h1>
-          <p className="mx-auto mt-6 max-w-lg text-base text-[#f2ede3]/70 sm:text-lg">
-            {t('heroSubtitle')}
-          </p>
-          <Link
-            href="/products"
-            className="mt-8 inline-block rounded-full bg-[#c9a961] px-8 py-3 text-sm font-semibold tracking-wide text-[#0f0d0b] transition hover:bg-[#dcbf7c]"
-          >
-            {t('shopNow')}
-          </Link>
+      {/* Hero — typography only, luxury minimalism */}
+      <section className="flex min-h-[80vh] flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#f5f3f0]">
+        <div className="space-y-8">
+          <div>
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-[#b8860b]">Est. 2025</p>
+            <h1 className="mt-6 font-serif text-[4rem] font-400 tracking-[0.2em] sm:text-[5rem]">
+              SUNNAH MUSK
+            </h1>
+            <p className="mt-2 font-mono text-[0.75rem] tracking-[0.15em] text-[#6b6b68]">LONDON</p>
+          </div>
+
+          <div className="mx-auto max-w-2xl space-y-4">
+            <p className="font-serif text-[1.25rem] font-400 text-[#f5f3f0]">
+              Curated fragrances for the discerning
+            </p>
+            <p className="font-mono text-[0.875rem] text-[#f5f3f0]/60">
+              Each scent tells a story. Discover layers of emotion with every note.
+            </p>
+          </div>
+
+          <div>
+            <Link
+              href="/products"
+              className="inline-block border border-[#b8860b] px-10 py-3 font-mono text-[0.75rem] uppercase tracking-[0.2em] text-[#b8860b] transition duration-300 hover:bg-[#b8860b] hover:text-[#0a0a0a]"
+            >
+              Explore collection
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="mb-10 text-center font-serif text-3xl text-[#171412]">{t('featured')}</h2>
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+      <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mb-3 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
+          Discover
+        </div>
+        <h2 className="mb-16 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
+          Featured Fragrances
+        </h2>
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((product) => (
-            <div key={product.id} className="group overflow-hidden rounded-lg border border-black/5 bg-white transition hover:shadow-lg">
-              <Link href="/products">
-                <ProductImage product={product} className="h-48 w-full sm:h-56" />
-              </Link>
-              <div className="p-4">
-                <p className="text-xs uppercase tracking-wide text-black/50">{product.brand}</p>
-                <h3 className="mt-1 truncate font-serif text-base text-[#171412]">{product.name}</h3>
-                <div className="mt-3 flex items-center justify-between">
+            <button
+              key={product.id}
+              onClick={() => (window.location.href = `/products?search=${encodeURIComponent(product.name)}`)}
+              className="glow-gold group border border-transparent text-center transition duration-300 focus:outline-none"
+            >
+              <ProductImage product={product} className="mx-auto h-64 w-full object-contain transition group-hover:brightness-110" />
+              <div className="mt-8">
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68]">
+                  {product.brand || 'Fragrance'}
+                </p>
+                <h3 className="mt-3 font-serif text-[1.25rem] font-400 text-[#f5f3f0]">
+                  {product.name.substring(0, 30)}
+                  {product.name.length > 30 ? '...' : ''}
+                </h3>
+                <p className="mt-4 font-mono text-[1rem] text-[#b8860b]">
                   {product.priceStatus === 'pending' ? (
-                    <span className="text-sm font-medium text-amber-600">—</span>
+                    <span className="text-[#f5f3f0]/40">Price Pending</span>
                   ) : (
-                    <span className="font-semibold text-[#171412]">${product.price}</span>
+                    `$${product.price?.toFixed(2)}`
                   )}
-                  <button
-                    onClick={() => addToCart(product, 1)}
-                    disabled={product.priceStatus === 'pending'}
-                    className="rounded-full border border-[#c9a961] px-3 py-1 text-xs font-medium text-[#171412] transition hover:bg-[#c9a961] hover:text-[#0f0d0b] disabled:opacity-40"
-                  >
-                    +
-                  </button>
-                </div>
+                </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="bg-[#f2ede3]/60 py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-10 text-center font-serif text-3xl text-[#171412]">{t('shopByCategory')}</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.key}
-                href={`/products?gender=${cat.gender}`}
-                className={`relative flex h-56 items-end justify-center overflow-hidden rounded-lg bg-gradient-to-br ${cat.gradient} p-6 text-white shadow-sm transition hover:opacity-90`}
-              >
-                <span className="font-serif text-2xl tracking-wide">{t(cat.key)}</span>
-              </Link>
+      {/* Scent Journey — signature section */}
+      <section className="border-y border-[#3a3a38] bg-[#0a0a0a] py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-4 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
+            The Experience
+          </div>
+          <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
+            Scent Journey Timeline
+          </h2>
+
+          {/* Timeline visualization */}
+          <div className="mb-16 hidden items-end gap-2 sm:flex sm:justify-center">
+            {scentJourney.map((phase, i) => (
+              <div key={phase.phase} className="flex flex-col items-center">
+                <div className={`h-12 w-12 rounded-full border-2 ${phase.border}`} />
+                {i < scentJourney.length - 1 && (
+                  <div className={`h-px w-12 bg-gradient-to-r ${phase.color.replace('text', 'from')} to-transparent`} style={{ width: '48px', height: '2px', backgroundColor: phase.color.includes('plum') ? '#5c2e3a' : phase.color.includes('gold') ? '#b8860b' : '#6b6b68' }} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Phase details */}
+          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
+            {scentJourney.map((phase) => (
+              <div key={phase.phase} className="text-center">
+                <p className={`font-mono text-[0.7rem] uppercase tracking-[0.2em] ${phase.color}`}>
+                  {phase.phase}
+                </p>
+                <p className="mt-2 font-mono text-[0.75rem] text-[#f5f3f0]/50">{phase.duration}</p>
+
+                <ul className="mt-8 space-y-3">
+                  {phase.notes.map((note) => (
+                    <li
+                      key={note}
+                      className={`border-b ${phase.border}/20 py-2 font-mono text-[0.875rem] text-[#f5f3f0] transition hover:border-opacity-100 hover:text-[#b8860b]`}
+                    >
+                      {note}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="mb-10 text-center font-serif text-3xl text-[#171412]">{t('testimonialsTitle')}</h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-          {testimonials.map((item) => (
-            <figure key={item.name} className="rounded-lg border border-black/5 bg-white p-6 text-center shadow-sm">
-              <blockquote className="text-sm italic text-[#171412]/80">&ldquo;{item.quote}&rdquo;</blockquote>
-              <figcaption className="mt-4 text-xs font-semibold uppercase tracking-wide text-[#c9a961]">
-                {item.name}
-              </figcaption>
-            </figure>
+      {/* Categories */}
+      <section className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mb-4 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
+          Collections
+        </div>
+        <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
+          Shop by Category
+        </h2>
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
+          {categories.map((cat) => (
+            <Link
+              key={cat.key}
+              href={`/products?gender=${cat.gender}`}
+              className="glow-gold group relative flex flex-col items-center justify-center border border-[#6b6b68]/40 px-6 py-16 text-center transition duration-300 hover:border-[#b8860b]"
+            >
+              <span className="font-serif text-8xl font-400 text-[#f5f3f0]/60 transition duration-300 group-hover:text-[#b8860b]">
+                {cat.letter}
+              </span>
+              <span className="absolute bottom-4 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68] transition group-hover:text-[#b8860b]">
+                {t(cat.key)}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="bg-[#0f0d0b] py-16 text-center text-[#f2ede3]">
-        <div className="mx-auto max-w-xl px-4">
-          <h2 className="font-serif text-3xl">{t('newsletterTitle')}</h2>
-          <p className="mt-3 text-sm text-[#f2ede3]/70">{t('newsletterSubtitle')}</p>
+      <section className="border-t border-[#3a3a38] bg-[#1a1a1a] py-24 text-center text-[#f5f3f0]">
+        <div className="mx-auto max-w-2xl px-4">
+          <div className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
+            Stay Updated
+          </div>
+          <h2 className="font-serif text-3xl font-400 tracking-[0.1em]">
+            Latest Releases & Stories
+          </h2>
+          <p className="mt-4 font-mono text-[0.875rem] text-[#f5f3f0]/60">
+            Be first to know about new fragrances, exclusive events, and curated insights.
+          </p>
           <NewsletterForm />
         </div>
       </section>
@@ -140,27 +219,24 @@ function NewsletterForm() {
     if (!email.trim()) return
     setSubscribed(true)
     setEmail('')
-  }
-
-  if (subscribed) {
-    return <p className="mt-6 text-[#c9a961]">Thank you for subscribing!</p>
+    setTimeout(() => setSubscribed(false), 4000)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto mt-6 flex max-w-md gap-2">
+    <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-md flex-col gap-4">
       <input
         type="email"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder={t('newsletterPlaceholder')}
-        className="w-full min-w-0 rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm placeholder:text-[#f2ede3]/40 focus:border-[#c9a961] focus:outline-none"
+        placeholder="your@email.com"
+        className="border-b border-[#6b6b68] bg-transparent px-3 py-3 font-mono text-[0.875rem] text-[#f5f3f0] placeholder:text-[#f5f3f0]/40 focus:border-[#b8860b] focus:outline-none"
       />
       <button
         type="submit"
-        className="shrink-0 rounded-full bg-[#c9a961] px-5 py-2.5 text-sm font-semibold text-[#0f0d0b] transition hover:bg-[#dcbf7c]"
+        className="bg-[#b8860b] px-6 py-3 font-mono text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[#0a0a0a] transition duration-300 hover:bg-[#dcbf7c]"
       >
-        {t('subscribe')}
+        {subscribed ? '✓ Subscribed' : 'Subscribe'}
       </button>
     </form>
   )

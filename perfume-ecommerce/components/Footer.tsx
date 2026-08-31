@@ -34,17 +34,16 @@ export function Footer() {
   }
 
   return (
-    <footer className="mt-auto bg-[#0f0d0b] text-[#f2ede3]">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="mt-auto border-t border-[#3a3a38] bg-[#0a0a0a] text-[#f5f3f0]">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-16 sm:grid-cols-3 lg:grid-cols-4">
+          {/* Brand */}
           <div>
-            <p className="font-serif text-xl tracking-[0.15em]">
-              MAISON<span className="text-[#c9a961]">.</span>
+            <p className="font-serif text-[1.5rem] font-400 tracking-[0.15em]">SUNNAH</p>
+            <p className="mt-4 font-mono text-[0.75rem] text-[#f5f3f0]/50">
+              Curated luxury fragrances for the modern connoisseur.
             </p>
-            <p className="mt-3 max-w-xs text-sm text-[#f2ede3]/60">
-              Fine fragrances, thoughtfully curated.
-            </p>
-            <div className="mt-5 flex gap-4">
+            <div className="mt-6 flex gap-4">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -52,9 +51,9 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-[#f2ede3]/60 transition hover:text-[#c9a961]"
+                  className="text-[#6b6b68] transition hover:text-[#b8860b]"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
                     <path d={social.icon} />
                   </svg>
                 </a>
@@ -62,12 +61,13 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Links */}
           <div>
-            <p className="text-sm font-semibold tracking-widest text-[#c9a961]">INFO</p>
-            <ul className="mt-4 space-y-2 text-sm text-[#f2ede3]/70">
-              {footerLinks.map((link) => (
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">Information</p>
+            <ul className="mt-6 space-y-3 font-mono text-[0.8rem] text-[#f5f3f0]/70">
+              {footerLinks.slice(0, 3).map((link) => (
                 <li key={link.key}>
-                  <Link href={link.href} className="hover:text-[#c9a961]">
+                  <Link href={link.href} className="transition hover:text-[#b8860b]">
                     {t(link.key)}
                   </Link>
                 </li>
@@ -76,35 +76,24 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="text-sm font-semibold tracking-widest text-[#c9a961]">{t('newsletterTitle')}</p>
-            <p className="mt-4 text-sm text-[#f2ede3]/70">{t('newsletterSubtitle')}</p>
-            {subscribed ? (
-              <p className="mt-4 text-sm text-[#c9a961]">Thank you for subscribing!</p>
-            ) : (
-              <form onSubmit={handleSubscribe} className="mt-4 flex gap-2">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('newsletterPlaceholder')}
-                  className="w-full min-w-0 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm placeholder:text-[#f2ede3]/40 focus:border-[#c9a961] focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="shrink-0 rounded-full bg-[#c9a961] px-4 py-2 text-sm font-medium text-[#0f0d0b] transition hover:bg-[#dcbf7c]"
-                >
-                  {t('subscribe')}
-                </button>
-              </form>
-            )}
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">Support</p>
+            <ul className="mt-6 space-y-3 font-mono text-[0.8rem] text-[#f5f3f0]/70">
+              {footerLinks.slice(3).map((link) => (
+                <li key={link.key}>
+                  <Link href={link.href} className="transition hover:text-[#b8860b]">
+                    {t(link.key)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
+          {/* Payments */}
           <div>
-            <p className="text-sm font-semibold tracking-widest text-[#c9a961]">PAYMENTS</p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">Accepted</p>
+            <div className="mt-6 flex flex-wrap gap-2">
               {paymentMethods.map((method) => (
-                <span key={method} className="rounded border border-white/15 px-2.5 py-1 text-xs text-[#f2ede3]/70">
+                <span key={method} className="border border-[#6b6b68]/50 px-2 py-1.5 font-mono text-[0.7rem] text-[#f5f3f0]/60">
                   {method}
                 </span>
               ))}
@@ -112,8 +101,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-[#f2ede3]/50">
-          © {new Date().getFullYear()} Maison. {t('rightsReserved')}
+        <div className="mt-12 border-t border-[#3a3a38] pt-8 text-center">
+          <p className="font-mono text-[0.7rem] text-[#6b6b68]">
+            © {new Date().getFullYear()} SUNNAH MUSK. {t('rightsReserved')}
+          </p>
         </div>
       </div>
     </footer>
