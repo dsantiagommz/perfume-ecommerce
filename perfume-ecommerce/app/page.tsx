@@ -131,9 +131,9 @@ export default function Home() {
           <div className="mb-16 hidden items-end gap-2 sm:flex sm:justify-center">
             {scentJourney.map((phase, i) => (
               <div key={phase.phase} className="flex flex-col items-center">
-                <div className={`h-12 w-12 rounded-full border-2 ${phase.border}`} />
+                <div className={`h-12 w-12 border-2 ${phase.border}`} />
                 {i < scentJourney.length - 1 && (
-                  <div className={`h-px w-12 bg-gradient-to-r ${phase.color.replace('text', 'from')} to-transparent`} style={{ width: '48px', height: '2px', backgroundColor: phase.color.includes('plum') ? '#5c2e3a' : phase.color.includes('gold') ? '#b8860b' : '#6b6b68' }} />
+                  <div style={{ width: '48px', height: '2px', backgroundColor: phase.color.includes('plum') ? '#5c2e3a' : phase.color.includes('gold') ? '#b8860b' : '#6b6b68' }} />
                 )}
               </div>
             ))}
