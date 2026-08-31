@@ -51,25 +51,18 @@ export default function Home() {
     <div className="flex flex-col">
       {/* Hero — typography only, luxury minimalism */}
       <section className="flex min-h-[80vh] flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#f5f3f0]">
-        <div className="space-y-8">
+        <div className="space-y-12">
           <div>
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-[#b8860b]">Est. 2025</p>
-            <h1 className="mt-6 font-serif text-[4rem] font-400 tracking-[0.2em] sm:text-[5rem]">
+            <h1 className="font-serif text-[4rem] font-400 tracking-[0.2em] sm:text-[5rem]">
               SUNNAH MUSK
             </h1>
             <p className="mt-2 font-mono text-[0.75rem] tracking-[0.15em] text-[#6b6b68]">LONDON</p>
           </div>
 
-          <div className="mx-auto max-w-2xl space-y-4">
-            <p className="font-serif text-[1.25rem] font-400 text-[#f5f3f0]">
-              Curated fragrances for the discerning
+          <div className="mx-auto max-w-2xl space-y-6">
+            <p className="font-serif text-[1.25rem] font-400 leading-relaxed text-[#f5f3f0]">
+              Curated fragrances for the discerning. Each scent tells a story.
             </p>
-            <p className="font-mono text-[0.875rem] text-[#f5f3f0]/60">
-              Each scent tells a story. Discover layers of emotion with every note.
-            </p>
-          </div>
-
-          <div>
             <Link
               href="/products"
               className="inline-block border border-[#b8860b] px-10 py-3 font-mono text-[0.75rem] uppercase tracking-[0.2em] text-[#b8860b] transition duration-300 hover:bg-[#b8860b] hover:text-[#0a0a0a]"
@@ -82,9 +75,6 @@ export default function Home() {
 
       {/* Featured Products */}
       <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mb-3 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
-          Discover
-        </div>
         <h2 className="mb-16 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
           Featured Fragrances
         </h2>
@@ -120,11 +110,8 @@ export default function Home() {
       {/* Scent Journey — signature section */}
       <section className="border-y border-[#3a3a38] bg-[#0a0a0a] py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-4 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
-            The Experience
-          </div>
           <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-            Scent Journey Timeline
+            Scent Journey
           </h2>
 
           {/* Timeline visualization */}
@@ -166,9 +153,6 @@ export default function Home() {
 
       {/* Categories */}
       <section className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mb-4 text-center font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
-          Collections
-        </div>
         <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
           Shop by Category
         </h2>
@@ -193,11 +177,8 @@ export default function Home() {
       {/* Newsletter */}
       <section className="border-t border-[#3a3a38] bg-[#1a1a1a] py-24 text-center text-[#f5f3f0]">
         <div className="mx-auto max-w-2xl px-4">
-          <div className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#b8860b]">
-            Stay Updated
-          </div>
           <h2 className="font-serif text-3xl font-400 tracking-[0.1em]">
-            Latest Releases & Stories
+            Stay Updated
           </h2>
           <p className="mt-4 font-mono text-[0.875rem] text-[#f5f3f0]/60">
             Be first to know about new fragrances, exclusive events, and curated insights.
