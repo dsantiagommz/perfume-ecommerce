@@ -6,42 +6,12 @@ import type { Product } from '@/lib/types'
 import { useLanguage } from '@/lib/i18n'
 import { ProductImage } from '@/components/ProductImage'
 
-const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender']; letter: string }[] = [
-  { key: 'men', gender: 'Men', letter: 'M' },
-  { key: 'women', gender: 'Women', letter: 'W' },
-  { key: 'unisex', gender: 'Unisex', letter: 'U' },
-]
-
-const scentJourney = [
-  {
-    phase: 'TOP NOTES',
-    duration: '2–3 min',
-    color: 'text-[#5c2e3a]',
-    border: 'border-[#5c2e3a]',
-    notes: ['Bergamot', 'Lemon', 'Grapefruit'],
-  },
-  {
-    phase: 'HEART NOTES',
-    duration: '15–60 min',
-    color: 'text-[#b8860b]',
-    border: 'border-[#b8860b]',
-    notes: ['Rose', 'Jasmine', 'Iris'],
-  },
-  {
-    phase: 'BASE NOTES',
-    duration: '2–8 hrs',
-    color: 'text-[#6b6b68]',
-    border: 'border-[#6b6b68]',
-    notes: ['Oud', 'Sandalwood', 'Musk'],
-  },
-]
-
 export default function Home() {
   const { t } = useLanguage()
   const [featured, setFeatured] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('/api/products?pageSize=6')
+    fetch('/api/products?pageSize=8')
       .then((res) => res.json())
       .then((json: { products: Product[] }) => setFeatured(json.products))
       .catch(() => setFeatured([]))
@@ -49,176 +19,129 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero — typography only, luxury minimalism */}
-      <section className="flex min-h-[80vh] flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#f5f3f0]">
-        <div className="space-y-12">
-          <div>
-            <h1 className="font-serif text-[4rem] font-400 tracking-[0.2em] sm:text-[5rem]">
-              SUNNAH MUSK
-            </h1>
-            <p className="mt-2 font-mono text-[0.75rem] tracking-[0.15em] text-[#6b6b68]">LONDON</p>
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+          {/* Image */}
+          <div className="bg-[#F5F5F5] flex items-center justify-center min-h-[500px]">
+            {featured.length > 0 && (
+              <ProductImage
+                product={featured[0]}
+                className="h-96 w-96 object-contain"
+              />
+            )}
           </div>
 
-          <div className="mx-auto max-w-2xl space-y-6">
-            <p className="font-serif text-[1.25rem] font-400 leading-relaxed text-[#f5f3f0]">
-              Curated fragrances for the discerning. Each scent tells a story.
+          {/* Content */}
+          <div className="flex flex-col justify-center px-6 sm:px-10 py-12 sm:py-20">
+            <h1 className="font-display text-4xl sm:text-5xl font-600 text-[#1B4D3E] mb-4">
+              Discover Your Scent
+            </h1>
+            <p className="font-body text-lg text-[#6B6B6B] mb-8 max-w-md">
+              Explore our curated collection of premium fragrances from around the world. Find the perfect scent for every moment.
             </p>
-            <Link
-              href="/products"
-              className="inline-block border border-[#b8860b] px-10 py-3 font-mono text-[0.75rem] uppercase tracking-[0.2em] text-[#b8860b] transition duration-300 hover:bg-[#b8860b] hover:text-[#0a0a0a]"
-            >
-              Explore collection
-            </Link>
+            <div className="flex gap-4">
+              <Link href="/products" className="btn-primary">
+                Shop Now
+              </Link>
+              <Link href="/about" className="btn-secondary">
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
-        <h2 className="mb-16 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-          Featured Fragrances
-        </h2>
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((product) => (
-            <button
-              key={product.id}
-              onClick={() => (window.location.href = `/products?search=${encodeURIComponent(product.name)}`)}
-              className="glow-gold group border border-transparent text-center transition duration-300 focus:outline-none"
-            >
-              <ProductImage product={product} className="mx-auto h-64 w-full object-contain transition group-hover:brightness-110" />
-              <div className="mt-8">
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68]">
-                  {product.brand || 'Fragrance'}
-                </p>
-                <h3 className="mt-3 font-serif text-[1.25rem] font-400 text-[#f5f3f0]">
-                  {product.name.substring(0, 30)}
-                  {product.name.length > 30 ? '...' : ''}
+      <section className="bg-white py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="font-display text-3xl sm:text-4xl font-600 text-[#1B4D3E] mb-4">
+            Featured Fragrances
+          </h2>
+          <p className="text-[#6B6B6B] mb-12 max-w-2xl">
+            Handpicked selection of our most popular and highest-rated fragrances
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featured.map((product) => (
+              <Link
+                key={product.id}
+                href={`/products?search=${encodeURIComponent(product.name)}`}
+                className="group"
+              >
+                <div className="bg-[#F5F5F5] rounded-lg p-6 mb-4 flex items-center justify-center min-h-[300px] overflow-hidden">
+                  <ProductImage
+                    product={product}
+                    className="h-48 w-full object-contain group-hover:scale-105 transition duration-300"
+                  />
+                </div>
+                <p className="text-sm text-[#6B6B6B] mb-2">{product.brand || 'Premium Fragrance'}</p>
+                <h3 className="font-display text-lg font-600 text-[#1A1A1A] mb-3 line-clamp-2">
+                  {product.name}
                 </h3>
-                <p className="mt-4 font-mono text-[1rem] text-[#b8860b]">
+                <p className="text-lg font-600 text-[#D4AF37]">
                   {product.priceStatus === 'pending' ? (
-                    <span className="text-[#f5f3f0]/40">Price Pending</span>
+                    <span className="text-[#6B6B6B]">Price pending</span>
                   ) : (
                     `$${product.price?.toFixed(2)}`
                   )}
                 </p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Scent Journey — signature section */}
-      <section className="border-y border-[#3a3a38] bg-[#0a0a0a] py-24">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-            Scent Journey
-          </h2>
-
-          {/* Timeline visualization */}
-          <div className="mb-16 hidden items-end gap-2 sm:flex sm:justify-center">
-            {scentJourney.map((phase, i) => (
-              <div key={phase.phase} className="flex flex-col items-center">
-                <div className={`h-12 w-12 border-2 ${phase.border}`} />
-                {i < scentJourney.length - 1 && (
-                  <div style={{ width: '48px', height: '2px', backgroundColor: phase.color.includes('plum') ? '#5c2e3a' : phase.color.includes('gold') ? '#b8860b' : '#6b6b68' }} />
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Phase details */}
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
-            {scentJourney.map((phase) => (
-              <div key={phase.phase} className="text-center">
-                <p className={`font-mono text-[0.7rem] uppercase tracking-[0.2em] ${phase.color}`}>
-                  {phase.phase}
-                </p>
-                <p className="mt-2 font-mono text-[0.75rem] text-[#f5f3f0]/50">{phase.duration}</p>
-
-                <ul className="mt-8 space-y-3">
-                  {phase.notes.map((note) => (
-                    <li
-                      key={note}
-                      className={`border-b ${phase.border}/20 py-2 font-mono text-[0.875rem] text-[#f5f3f0] transition hover:border-opacity-100 hover:text-[#b8860b]`}
-                    >
-                      {note}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
-        <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-          Shop by Category
-        </h2>
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
-          {categories.map((cat) => (
-            <Link
-              key={cat.key}
-              href={`/products?gender=${cat.gender}`}
-              className="glow-gold group relative flex flex-col items-center justify-center border border-[#6b6b68]/40 px-6 py-16 text-center transition duration-300 hover:border-[#b8860b]"
-            >
-              <span className="font-serif text-8xl font-400 text-[#f5f3f0]/60 transition duration-300 group-hover:text-[#b8860b]">
-                {cat.letter}
-              </span>
-              <span className="absolute bottom-4 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68] transition group-hover:text-[#b8860b]">
-                {t(cat.key)}
-              </span>
-            </Link>
-          ))}
+      <section className="bg-[#FAFAF8] py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="font-display text-3xl sm:text-4xl font-600 text-[#1B4D3E] mb-12">
+            Shop by Category
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              { label: 'Women', href: '/products?gender=Women', icon: '♀' },
+              { label: 'Men', href: '/products?gender=Men', icon: '♂' },
+              { label: 'Unisex', href: '/products?gender=Unisex', icon: '⊙' },
+            ].map((cat) => (
+              <Link
+                key={cat.label}
+                href={cat.href}
+                className="bg-white border border-[#E8E8E6] p-8 text-center hover:border-[#1B4D3E] hover:shadow-lg transition"
+              >
+                <div className="text-5xl mb-4 font-display">{cat.icon}</div>
+                <h3 className="font-display text-2xl font-600 text-[#1B4D3E]">
+                  {cat.label}
+                </h3>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="border-t border-[#3a3a38] bg-[#1a1a1a] py-24 text-center text-[#f5f3f0]">
-        <div className="mx-auto max-w-2xl px-4">
-          <h2 className="font-serif text-3xl font-400 tracking-[0.1em]">
-            Stay Updated
+      {/* CTA Section */}
+      <section className="bg-[#1B4D3E] py-16 sm:py-24 text-white">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-display text-3xl sm:text-4xl font-600 mb-4">
+            Join Our Fragrance Community
           </h2>
-          <p className="mt-4 font-mono text-[0.875rem] text-[#f5f3f0]/60">
-            Be first to know about new fragrances, exclusive events, and curated insights.
+          <p className="text-lg text-gray-200 mb-8">
+            Sign up for exclusive updates on new arrivals and special offers
           </p>
-          <NewsletterForm />
+          <form className="flex gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 bg-white text-[#1A1A1A] placeholder:text-[#6B6B6B] focus:outline-none"
+              required
+            />
+            <button type="submit" className="bg-[#D4AF37] text-[#1B4D3E] font-600 px-6 py-3 hover:bg-gray-100 transition">
+              Subscribe
+            </button>
+          </form>
         </div>
       </section>
     </div>
-  )
-}
-
-function NewsletterForm() {
-  const { t } = useLanguage()
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email.trim()) return
-    setSubscribed(true)
-    setEmail('')
-    setTimeout(() => setSubscribed(false), 4000)
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-md flex-col gap-4">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        className="border-b border-[#6b6b68] bg-transparent px-3 py-3 font-mono text-[0.875rem] text-[#f5f3f0] placeholder:text-[#f5f3f0]/40 focus:border-[#b8860b] focus:outline-none"
-      />
-      <button
-        type="submit"
-        className="bg-[#b8860b] px-6 py-3 font-mono text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[#0a0a0a] transition duration-300 hover:bg-[#dcbf7c]"
-      >
-        {subscribed ? '✓ Subscribed' : 'Subscribe'}
-      </button>
-    </form>
   )
 }
