@@ -6,34 +6,10 @@ import type { Product } from '@/lib/types'
 import { useLanguage } from '@/lib/i18n'
 import { ProductImage } from '@/components/ProductImage'
 
-const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender']; letter: string }[] = [
-  { key: 'men', gender: 'Men', letter: 'M' },
-  { key: 'women', gender: 'Women', letter: 'W' },
-  { key: 'unisex', gender: 'Unisex', letter: 'U' },
-]
-
-const scentJourney = [
-  {
-    phase: 'TOP NOTES',
-    duration: '2–3 min',
-    color: 'text-[#5c2e3a]',
-    border: 'border-[#5c2e3a]',
-    notes: ['Bergamot', 'Lemon', 'Grapefruit'],
-  },
-  {
-    phase: 'HEART NOTES',
-    duration: '15–60 min',
-    color: 'text-[#b8860b]',
-    border: 'border-[#b8860b]',
-    notes: ['Rose', 'Jasmine', 'Iris'],
-  },
-  {
-    phase: 'BASE NOTES',
-    duration: '2–8 hrs',
-    color: 'text-[#6b6b68]',
-    border: 'border-[#6b6b68]',
-    notes: ['Oud', 'Sandalwood', 'Musk'],
-  },
+const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender'] }[] = [
+  { key: 'men', gender: 'Men' },
+  { key: 'women', gender: 'Women' },
+  { key: 'unisex', gender: 'Unisex' },
 ]
 
 export default function Home() {
@@ -41,152 +17,104 @@ export default function Home() {
   const [featured, setFeatured] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('/api/products?pageSize=6')
+    fetch('/api/products?pageSize=8')
       .then((res) => res.json())
       .then((json: { products: Product[] }) => setFeatured(json.products))
       .catch(() => setFeatured([]))
   }, [])
 
   return (
-    <div className="flex flex-col">
-      {/* Hero — typography only, luxury minimalism */}
-      <section className="flex min-h-[80vh] flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#f5f3f0]">
-        <div className="space-y-12">
-          <div>
-            <h1 className="font-serif text-[4rem] font-400 tracking-[0.2em] sm:text-[5rem]">
-              SUNNAH MUSK
-            </h1>
-            <p className="mt-2 font-mono text-[0.75rem] tracking-[0.15em] text-[#6b6b68]">LONDON</p>
-          </div>
-
-          <div className="mx-auto max-w-2xl space-y-6">
-            <p className="font-serif text-[1.25rem] font-400 leading-relaxed text-[#f5f3f0]">
-              Curated fragrances for the discerning. Each scent tells a story.
-            </p>
-            <Link
-              href="/products"
-              className="inline-block border border-[#b8860b] px-10 py-3 font-mono text-[0.75rem] uppercase tracking-[0.2em] text-[#b8860b] transition duration-300 hover:bg-[#b8860b] hover:text-[#0a0a0a]"
-            >
-              Explore collection
-            </Link>
-          </div>
+    <main className="flex flex-col">
+      {/* Hero */}
+      <section className="min-h-[75vh] bg-gradient-to-b from-white to-[#FAFAF8] flex items-center justify-center px-4 py-16 sm:py-24">
+        <div className="max-w-4xl text-center">
+          <h1 className="text-5xl sm:text-7xl font-serif font-normal text-[#1B4D3E] mb-4">
+            SUNNAH MUSK
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 mb-8 font-light">
+            Curated fragrances for the discerning. Each scent tells a story.
+          </p>
+          <Link
+            href="/products"
+            className="inline-block px-8 py-3 bg-[#1B4D3E] text-white font-sans font-medium hover:bg-[#0f2f27] transition"
+          >
+            Explore Collection
+          </Link>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
-        <h2 className="mb-16 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-          Featured Fragrances
-        </h2>
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((product) => (
-            <button
-              key={product.id}
-              onClick={() => (window.location.href = `/products?search=${encodeURIComponent(product.name)}`)}
-              className="glow-gold group border border-transparent text-center transition duration-300 focus:outline-none"
-            >
-              <ProductImage product={product} className="mx-auto h-64 w-full object-contain transition group-hover:brightness-110" />
-              <div className="mt-8">
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68]">
+      <section className="w-full px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-4xl font-serif text-[#1B4D3E] text-center mb-16">
+            Featured Fragrances
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featured.map((product) => (
+              <button
+                key={product.id}
+                onClick={() => (window.location.href = `/products?search=${encodeURIComponent(product.name)}`)}
+                className="text-left hover:opacity-75 transition"
+              >
+                <div className="aspect-square bg-gray-100 mb-4 flex items-center justify-center">
+                  <ProductImage product={product} className="w-full h-full object-contain" />
+                </div>
+                <p className="text-sm text-gray-500 mb-2">
                   {product.brand || 'Fragrance'}
                 </p>
-                <h3 className="mt-3 font-serif text-[1.25rem] font-400 text-[#f5f3f0]">
+                <h3 className="text-lg font-serif text-gray-900 mb-2">
                   {product.name.substring(0, 30)}
                   {product.name.length > 30 ? '...' : ''}
                 </h3>
-                <p className="mt-4 font-mono text-[1rem] text-[#b8860b]">
+                <p className="text-lg font-sans font-semibold text-[#D4AF37]">
                   {product.priceStatus === 'pending' ? (
-                    <span className="text-[#f5f3f0]/40">Price Pending</span>
+                    <span className="text-gray-400">Price Pending</span>
                   ) : (
                     `$${product.price?.toFixed(2)}`
                   )}
                 </p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Scent Journey — signature section */}
-      <section className="border-y border-[#3a3a38] bg-[#0a0a0a] py-24">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-            Scent Journey
-          </h2>
-
-          {/* Timeline visualization */}
-          <div className="mb-16 hidden items-end gap-2 sm:flex sm:justify-center">
-            {scentJourney.map((phase, i) => (
-              <div key={phase.phase} className="flex flex-col items-center">
-                <div className={`h-12 w-12 border-2 ${phase.border}`} />
-                {i < scentJourney.length - 1 && (
-                  <div style={{ width: '48px', height: '2px', backgroundColor: phase.color.includes('plum') ? '#5c2e3a' : phase.color.includes('gold') ? '#b8860b' : '#6b6b68' }} />
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Phase details */}
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
-            {scentJourney.map((phase) => (
-              <div key={phase.phase} className="text-center">
-                <p className={`font-mono text-[0.7rem] uppercase tracking-[0.2em] ${phase.color}`}>
-                  {phase.phase}
-                </p>
-                <p className="mt-2 font-mono text-[0.75rem] text-[#f5f3f0]/50">{phase.duration}</p>
-
-                <ul className="mt-8 space-y-3">
-                  {phase.notes.map((note) => (
-                    <li
-                      key={note}
-                      className={`border-b ${phase.border}/20 py-2 font-mono text-[0.875rem] text-[#f5f3f0] transition hover:border-opacity-100 hover:text-[#b8860b]`}
-                    >
-                      {note}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
-        <h2 className="mb-20 text-center font-serif text-3xl font-400 tracking-[0.1em] text-[#f5f3f0]">
-          Shop by Category
-        </h2>
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
-          {categories.map((cat) => (
-            <Link
-              key={cat.key}
-              href={`/products?gender=${cat.gender}`}
-              className="glow-gold group relative flex flex-col items-center justify-center border border-[#6b6b68]/40 px-6 py-16 text-center transition duration-300 hover:border-[#b8860b]"
-            >
-              <span className="font-serif text-8xl font-400 text-[#f5f3f0]/60 transition duration-300 group-hover:text-[#b8860b]">
-                {cat.letter}
-              </span>
-              <span className="absolute bottom-4 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#6b6b68] transition group-hover:text-[#b8860b]">
-                {t(cat.key)}
-              </span>
-            </Link>
-          ))}
+      <section className="w-full px-4 py-24 bg-[#FAFAF8] sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-4xl font-serif text-[#1B4D3E] text-center mb-16">
+            Shop by Category
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {categories.map((cat) => (
+              <Link
+                key={cat.key}
+                href={`/products?gender=${cat.gender}`}
+                className="border border-gray-200 p-12 text-center hover:border-[#1B4D3E] hover:bg-white transition"
+              >
+                <h3 className="text-2xl font-serif text-[#1B4D3E] mb-2">
+                  {t(cat.key)}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Shop {t(cat.key).toLowerCase()}
+                </p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="border-t border-[#3a3a38] bg-[#1a1a1a] py-24 text-center text-[#f5f3f0]">
-        <div className="mx-auto max-w-2xl px-4">
-          <h2 className="font-serif text-3xl font-400 tracking-[0.1em]">
-            Stay Updated
-          </h2>
-          <p className="mt-4 font-mono text-[0.875rem] text-[#f5f3f0]/60">
-            Be first to know about new fragrances, exclusive events, and curated insights.
+      <section className="w-full px-4 py-24 bg-[#1B4D3E] text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-4xl font-serif mb-4">Stay Updated</h2>
+          <p className="text-white/80 mb-8">
+            Be first to know about new fragrances and exclusive events.
           </p>
           <NewsletterForm />
         </div>
       </section>
-    </div>
+    </main>
   )
 }
 
@@ -200,24 +128,24 @@ function NewsletterForm() {
     if (!email.trim()) return
     setSubscribed(true)
     setEmail('')
-    setTimeout(() => setSubscribed(false), 4000)
+    setTimeout(() => setSubscribed(false), 3000)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-md flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex max-w-md mx-auto gap-2 sm:gap-3">
       <input
         type="email"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
-        className="border-b border-[#6b6b68] bg-transparent px-3 py-3 font-mono text-[0.875rem] text-[#f5f3f0] placeholder:text-[#f5f3f0]/40 focus:border-[#b8860b] focus:outline-none"
+        className="flex-1 px-4 py-3 bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
       />
       <button
         type="submit"
-        className="bg-[#b8860b] px-6 py-3 font-mono text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[#0a0a0a] transition duration-300 hover:bg-[#dcbf7c]"
+        className="px-6 py-3 bg-[#D4AF37] text-[#1B4D3E] font-sans font-semibold hover:bg-[#E8C749] transition"
       >
-        {subscribed ? '✓ Subscribed' : 'Subscribe'}
+        {subscribed ? '✓' : 'Subscribe'}
       </button>
     </form>
   )
