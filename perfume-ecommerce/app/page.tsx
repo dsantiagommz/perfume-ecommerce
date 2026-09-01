@@ -15,6 +15,7 @@ const categories: { key: 'men' | 'women' | 'unisex'; gender: Product['gender'] }
 export default function Home() {
   const { t } = useLanguage()
   const [featured, setFeatured] = useState<Product[]>([])
+  // Fresh build trigger
 
   useEffect(() => {
     fetch('/api/products?pageSize=8')
